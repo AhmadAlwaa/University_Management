@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.university_management.SceneSwitch">
+   <top>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+             <MenuButton contentDisplay="RIGHT" mnemonicParsing="false" popupSide="RIGHT" text="Menu">
+                 <items>
+                     <MenuItem mnemonicParsing="false" onAction="#dashBoard" text="DashBoard" />
+                     <MenuItem mnemonicParsing="false" onAction="#subject" text="Subject Management" />
+                     <MenuItem mnemonicParsing="false" onAction="#course" text="Course Management" />
+                     <MenuItem mnemonicParsing="false" onAction="#student" text="Student Management" />
+                     <MenuItem mnemonicParsing="false" onAction="#faculty" text="Faculty Management" />
+                     <MenuItem mnemonicParsing="false" onAction="#event" text="Event Management" />
+                 </items>
+             </MenuButton>
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

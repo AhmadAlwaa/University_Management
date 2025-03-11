@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.university_management.EventDetailsController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="240.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.0" minWidth="10.0" prefWidth="360.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="129.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="221.0" minHeight="10.0" prefHeight="193.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="79.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+      <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+              <ListView fx:id="eventDetailsList" prefHeight="217.0" prefWidth="343.0" />
+         </children>
+      </AnchorPane>
+        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+         <children>
+            <Button fx:id="regButton" layoutX="132.0" layoutY="2.0" mnemonicParsing="false" text="Register To Event" />
+            <Text fx:id="errorText" fill="RED" layoutX="136.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already Registered" />
+         </children></Pane>
+    </children>
+</GridPane>

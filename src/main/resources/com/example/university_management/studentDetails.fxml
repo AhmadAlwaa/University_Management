@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox prefHeight="373.0" prefWidth="1004.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.university_management.StudentDetailsController">
+   <children>
+      <StackPane fx:id="profilePic" prefHeight="499.0" prefWidth="534.0" />
+      <VBox alignment="CENTER" prefHeight="373.0" prefWidth="722.0" spacing="10">
+         <ListView fx:id="studentDetails" prefHeight="265.0" prefWidth="596.0" />
+         <Button mnemonicParsing="false" onAction="#deleteUser" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #f46669;" text="Delete User" />
+      
+          <Button onAction="#handleClose" prefHeight="25.0" prefWidth="105.0" text="Close" />
+         <HBox alignment="CENTER" prefHeight="68.0" prefWidth="596.0">
+            <children>
+               <TextField fx:id="editStudent1" prefHeight="33.0" prefWidth="416.0" />
+            </children>
+         </HBox>
+      
+      </VBox>
+   </children>
+</HBox>

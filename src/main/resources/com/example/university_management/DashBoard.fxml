@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.university_management.StudentDash">
+   <children>
+      <TabPane fx:id="tabs" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="900.0" side="LEFT" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab onSelectionChanged="#countingStudents" text="Dashboard">
+              <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                          <Pane layoutX="118.0" layoutY="13.0" prefHeight="116.0" prefWidth="730.0" style="-fx-background-color: #ffffff; -fx-background-radius: 30;">
+                              <children>
+                                  <Label alignment="CENTER" layoutX="19.0" layoutY="3.0" prefHeight="112.0" prefWidth="702.0" text="Dashboard">
+                                      <font>
+                                          <Font size="72.0" />
+                                      </font>
+                                  </Label>
+                              </children>
+                          </Pane>
+                          <AnchorPane layoutX="183.0" layoutY="146.0" prefHeight="137.0" prefWidth="140.0" style="-fx-background-color: abdbe3;">
+                              <children>
+                                  <Label alignment="CENTER" layoutX="2.0" layoutY="17.0" prefHeight="40.0" prefWidth="139.0" text="Total Students">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                                  <Label fx:id="studentCountLabel" alignment="CENTER" layoutX="2.0" layoutY="69.0" prefHeight="40.0" prefWidth="139.0" text="0">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                              </children>
+                          </AnchorPane>
+                          <AnchorPane layoutX="341.0" layoutY="145.0" prefHeight="138.0" prefWidth="140.0" style="-fx-background-color: abdbe3;">
+                              <children>
+                                  <Label alignment="CENTER" layoutY="17.0" prefHeight="40.0" prefWidth="139.0" text="Total Courses">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                                  <Label fx:id="totalCourses" alignment="CENTER" layoutX="1.0" layoutY="81.0" prefHeight="17.0" prefWidth="138.0" text="0">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                              </children>
+                          </AnchorPane>
+                          <AnchorPane layoutX="499.0" layoutY="145.0" prefHeight="137.0" prefWidth="140.0" style="-fx-background-color: abdbe3;">
+                              <children>
+                                  <Label alignment="CENTER" layoutX="1.0" layoutY="17.0" prefHeight="40.0" prefWidth="138.0" text="Total Faculty">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                                  <Label fx:id="totalFaculty" alignment="CENTER" layoutY="77.0" prefHeight="17.0" prefWidth="140.0" text="0">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                              </children>
+                          </AnchorPane>
+                          <AnchorPane layoutX="662.0" layoutY="145.0" prefHeight="138.0" prefWidth="140.0" style="-fx-background-color: abdbe3;">
+                              <children>
+                                  <Label alignment="CENTER" layoutX="1.0" layoutY="17.0" prefHeight="40.0" prefWidth="138.0" text="Total Events">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                                  <Label fx:id="totalEvents" alignment="CENTER" layoutX="1.0" layoutY="80.0" prefHeight="17.0" prefWidth="138.0" text="0">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                              </children>
+                          </AnchorPane>
+                          <AnchorPane layoutX="188.0" layoutY="321.0" prefHeight="200.0" prefWidth="261.0" style="-fx-background-color: aaaa;">
+                              <children>
+                                  <Label alignment="CENTER" layoutX="62.0" layoutY="18.0" text="Upcoming Events">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                              </children>
+                          </AnchorPane>
+                          <AnchorPane layoutX="541.0" layoutY="321.0" prefHeight="200.0" prefWidth="261.0" style="-fx-background-color: aaaa;">
+                              <children>
+                                  <Label alignment="CENTER" layoutX="40.0" layoutY="19.0" text="Recent Registrations">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                              </children>
+                          </AnchorPane>
+                          <Label text="Label" />
+                      </children></AnchorPane>
+              </content>
+          </Tab>
+          <Tab onSelectionChanged="#loadSubject" text="Subject Management">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane layoutX="1.0" layoutY="-6.0" prefHeight="763.0" prefWidth="874.0">
+                           <center>
+                              <ListView fx:id="subjectList" prefHeight="724.0" prefWidth="826.0" BorderPane.alignment="CENTER" />
+                           </center>
+                           <top>
+                              <HBox prefHeight="283.0" prefWidth="874.0" BorderPane.alignment="CENTER" />
+                           </top>
+                           <right>
+                              <VBox prefHeight="533.0" prefWidth="42.0" BorderPane.alignment="CENTER" />
+                           </right>
+                           <left>
+                              <VBox prefHeight="480.0" prefWidth="294.0" BorderPane.alignment="CENTER" />
+                           </left>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab onSelectionChanged="#loadCourseInfo" text="Course Management">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="750.0" prefWidth="872.0">
+                           <top>
+                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </top>
+                           <left>
+                              <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+                           </left>
+                           <right>
+                              <VBox prefHeight="650.0" prefWidth="30.0" BorderPane.alignment="CENTER" />
+                           </right>
+                           <center>
+                              <TableView fx:id="courseInfo" prefHeight="650.0" prefWidth="714.0" BorderPane.alignment="CENTER">
+                                <columns>
+                                  <TableColumn fx:id="courseCode" prefWidth="50.0" text="Course Code" />
+                                  <TableColumn fx:id="courseName" prefWidth="110.0" text="Course Name" />
+                                    <TableColumn fx:id="subjectCode" prefWidth="82.0" text="Subject Code" />
+                                    <TableColumn fx:id="sectionNumber" prefWidth="96.0" text="Section Number" />
+                                    <TableColumn fx:id="capacity" prefWidth="56.0" text="Capacity" />
+                                    <TableColumn fx:id="lectureTime" prefWidth="79.0" text="Lecture Time" />
+                                    <TableColumn fx:id="finalExam" prefWidth="90.0" text="Final Exam Date" />
+                                    <TableColumn fx:id="location" prefWidth="81.0" text="Location" />
+                                    <TableColumn fx:id="teacherName" prefWidth="97.0" text="Teacher Name" />
+                                </columns>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab onSelectionChanged="#create" text="Student Management">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane layoutX="-3.0" layoutY="-8.0" prefHeight="750.0" prefWidth="900.0">
+                           <center>
+                              <ListView fx:id="listView" editable="true" prefHeight="295.0" prefWidth="640.0" BorderPane.alignment="TOP_CENTER" />
+                           </center>
+                           <left>
+                              <StackPane fx:id="profilePic" prefHeight="295.0" prefWidth="322.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="changePic" mnemonicParsing="false" onAction="#createProfilePic" text="Change Picture" StackPane.alignment="BOTTOM_CENTER" />
+                                 </children>
+                              </StackPane>
+                           </left>
+                           <top>
+                              <GridPane prefHeight="455.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="680.0" minWidth="10.0" prefWidth="564.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="336.0" minWidth="0.0" prefWidth="336.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="338.0" minHeight="10.0" prefHeight="257.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="149.0" minHeight="10.0" prefHeight="149.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="65.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <TextField fx:id="changePass" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="265.0" promptText="enter new password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                           </top>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab onSelectionChanged="#faculty" text="Faculty Management">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="750.0" prefWidth="872.0">
+                           <center>
+                              <ListView fx:id="facultyList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </center>
+                           <top>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </top>
+                           <left>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </left>
+                           <bottom>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </bottom>
+                           <right>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </right>
+                        </BorderPane>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Event Management">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                         <FlowPane fx:id="calendar" hgap="10.0" layoutX="14.0" layoutY="116.0" prefHeight="498.0" prefWidth="716.0" vgap="5.0" />
+                         <HBox alignment="CENTER" layoutX="163.0" layoutY="14.0" prefHeight="44.0" prefWidth="419.0" spacing="5.0">
+                             <children>
+                                 <Button mnemonicParsing="false" onAction="#backOneMonth" text="&lt;" />
+                                 <Text fx:id="year" strokeType="OUTSIDE" strokeWidth="0.0" text="####">
+                                     <font>
+                                         <Font size="22.0" />
+                                     </font>
+                                 </Text>
+                                 <Text fx:id="month" strokeType="OUTSIDE" strokeWidth="0.0" text="####">
+                                     <font>
+                                         <Font size="22.0" />
+                                     </font>
+                                 </Text>
+                                 <Button mnemonicParsing="false" onAction="#forwardOneMonth" text="&gt;" />
+                             </children>
+                         </HBox>
+                         <HBox alignment="CENTER" layoutX="14.0" layoutY="78.0" prefHeight="44.0" prefWidth="716.0" spacing="88.75">
+                             <children>
+                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Su" textAlignment="CENTER" />
+                                 <Text layoutX="213.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mo" textAlignment="CENTER" />
+                                 <Text layoutX="222.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tu" textAlignment="CENTER" />
+                                 <Text layoutX="232.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We" textAlignment="CENTER" />
+                                 <Text layoutX="241.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Th" textAlignment="CENTER" />
+                                 <Text layoutX="251.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fr" textAlignment="CENTER" />
+                                 <Text layoutX="266.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sa" textAlignment="CENTER" />
+                             </children>
+                             <padding>
+                                 <Insets right="9.0" />
+                             </padding>
+                         </HBox>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Button fx:id="collapseButton" mnemonicParsing="false" onAction="#collapseMenu" text="Collapse Menu" translateX="30.0" />
+      <Rectangle fx:id="hide" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="750.0" stroke="TRANSPARENT" strokeType="INSIDE" visible="false" width="30.0" />
+   </children>
+</AnchorPane>
