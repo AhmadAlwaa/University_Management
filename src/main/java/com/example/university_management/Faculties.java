@@ -20,4 +20,4 @@ public class Faculties {
         this.password = password;
     }
 }
-// Tevin
+// Tevin Heath
