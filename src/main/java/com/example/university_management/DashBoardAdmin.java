@@ -12,7 +12,7 @@ public class DashBoardAdmin {
         Scene scene = new Scene(fxmlLoader.load(), 900, 750);
         stage.setTitle("University Management System");
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
     }
 }

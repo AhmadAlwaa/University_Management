@@ -268,7 +268,7 @@
               </Tab>
           </tabs>
       </TabPane>
-      <Button layoutX="45.0" layoutY="35.0" mnemonicParsing="false" onAction="#logOut" style="-fx-background-color: red;" text="Logout" />
+      <Button layoutX="45.0" layoutY="35.0" mnemonicParsing="false" onAction="#logOut" style="-fx-background-color: #f69c94;" text="Logout" />
       <Button fx:id="collapseButton" mnemonicParsing="false" onAction="#collapseMenu" prefHeight="25.0" prefWidth="96.0" text="Collapse Menu" translateX="30.0" />
    </children>
 </AnchorPane>

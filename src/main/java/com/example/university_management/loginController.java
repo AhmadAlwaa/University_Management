@@ -6,18 +6,24 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 
 public class loginController {
+    private static final Logger log = LogManager.getLogger(loginController.class);
     public static String role = "USER"; // Public role variable set to USER by default
     public static String user; // Make user static variable called user
     public static String filePath = "C:\\Users\\Ahmad\\Downloads\\UMS_Data.xlsx";
     @FXML  private Button login; //references to the button in login.fxml called login
     @FXML private AnchorPane anchorPane;
     @FXML private ImageView image;
+    @FXML private BorderPane loginPage;
     @FXML
     void hover(MouseEvent event) { //when the button login is hovered over it called the hover function (this is set in login.fxml)
         login.setStyle("-fx-background-color: #2980b9;"); //set color to blue
@@ -63,20 +69,21 @@ public class loginController {
             incorrectID.setText("Incorrect Username or Password"); //otherwise say incorrect username or password
         }
     }
-    /*@FXML
+    @FXML
     public void initialize() {
         // Listener for width changes
-        anchorPane.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            image.setFitWidth(newWidth.doubleValue()/3.5); // Resize width
-            image.setLayoutX((newWidth.doubleValue() - image.getFitWidth()) / 2 +25);
-
+        loginPage.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            //image.setFitWidth(newWidth.doubleValue()/3.5); // Resize width
+            //image.setLayoutX((newWidth.doubleValue() - image.getFitWidth()) / 2 +25);
+            loginPage.setMinWidth(newWidth.doubleValue()/3.5);
 
         });
 
         // Listener for height changes
-        anchorPane.heightProperty().addListener((obs, oldHeight, newHeight) -> {
-            image.setFitHeight(newHeight.doubleValue()/1.3); // Resize height
-            image.setLayoutY((newHeight.doubleValue() - image.getFitHeight()) +50);
+        loginPage.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+            //image.setFitHeight(newHeight.doubleValue()/1.3); // Resize height
+            loginPage.setMinHeight(newHeight.doubleValue()/3.5);
+            //image.setLayoutY((newHeight.doubleValue() - image.getFitHeight()) +50);
         });
-    } */
+    }
 }

@@ -599,6 +599,17 @@ public class StudentDash implements Initializable {
         }
         totalEvents.setText(String.valueOf(count4));
     }
+    @FXML
+    private void logOut() throws IOException {
+        Stage stage = (Stage) collapseButton.getScene().getWindow();
+        stage.close();
+        FXMLLoader fxmlLoader = new FXMLLoader(loginScreen.class.getResource("login.fxml")); //references the fxml called login
+        Scene scene = new Scene(fxmlLoader.load(), 700, 500); //open login.fxml with dimensions 700 width and 500 height
+        stage.setTitle("University Management System"); //sets the login screen title to university management system
+        stage.setScene(scene);
+        stage.show();
+
+    }
 
 }
 

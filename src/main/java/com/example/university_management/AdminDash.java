@@ -473,7 +473,10 @@ public class AdminDash implements Initializable {
         AddStudent student = new AddStudent("", "default123", name, address, telephone, email, academicLevel, currSem, profilePhoto, subjRej, thesis, progress);
         student.addStudent();
         studentTable.getItems().add(student);
+        studentTable.refresh();
         addEvent.setVisible(false);
+        textEvent.setVisible(true);
+        eventText.setVisible(true);
 
     }
     @FXML
@@ -510,6 +513,8 @@ public class AdminDash implements Initializable {
                 eventText.setText("Enter Name");
                 studentText.setText("Name: " + name +"  Address: " + address +"     Telephone: " + telephone+ "     Email: " + email);
                 addEvent.setVisible(true);
+                eventText.setVisible(false);
+                textEvent.setVisible(false);
                 break;
         }
     }
