@@ -17,7 +17,13 @@ public class ReadingCourses {
         FileInputStream fins = new FileInputStream(new File(FILE_PATH));
         Workbook wb = WorkbookFactory.create(fins);
         Sheet sheet = wb.getSheetAt(1);
-        int rowCount = sheet.getLastRowNum();
+        int rowCount = 0;
+        for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
+            if (row != null && row.getPhysicalNumberOfCells() > 0) { // Check if the row has actual cells
+                rowCount++;
+            }
+        }
         courses = new Course[rowCount];
 
         for (int i = 1; i <= rowCount; i++) { // Start from row 1 (skip header)

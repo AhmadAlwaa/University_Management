@@ -29,7 +29,6 @@ import java.util.*;
 
 public class AdminDash implements Initializable {
     @FXML private TextField textEvent;
-    @FXML private Button addEvent;
     @FXML private TableView<Course> courseInfo;
     @FXML private Button collapseButton;
     @FXML private Label totalEvents;
@@ -462,7 +461,6 @@ public class AdminDash implements Initializable {
         }
         totalEvents.setText(String.valueOf(count4));
     }
-    @FXML
     private void addEvent(){
         String academicLevel = "Undergraduate";
         String currSem = "Fall 2025";
@@ -472,11 +470,9 @@ public class AdminDash implements Initializable {
         String progress = "0%";
         AddStudent student = new AddStudent("", "default123", name, address, telephone, email, academicLevel, currSem, profilePhoto, subjRej, thesis, progress);
         student.addStudent();
-        studentTable.getItems().add(student);
+        int index = studentTable.getItems().size() -1;
+        studentTable.getItems().add(index,student);
         studentTable.refresh();
-        addEvent.setVisible(false);
-        textEvent.setVisible(true);
-        eventText.setVisible(true);
 
     }
     @FXML
@@ -511,10 +507,8 @@ public class AdminDash implements Initializable {
             case 3:
                 email = textEvent.getText();
                 eventText.setText("Enter Name");
-                studentText.setText("Name: " + name +"  Address: " + address +"     Telephone: " + telephone+ "     Email: " + email);
-                addEvent.setVisible(true);
-                eventText.setVisible(false);
-                textEvent.setVisible(false);
+                studentText.setText("");
+                addEvent();
                 break;
         }
     }

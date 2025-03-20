@@ -18,8 +18,13 @@ public class Reading_Student {
         FileInputStream fins = new FileInputStream(new File(FILE_PATH)); // Open file input stream
         Workbook wb = WorkbookFactory.create(fins); // Create workbook from the file
         Sheet sheet = wb.getSheetAt(2); // Access the third sheet (index 2)
-
-        int rowCount = sheet.getLastRowNum(); // Get the total number of students (excluding header)
+        int rowCount = 0;
+        for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
+            if (row != null && row.getPhysicalNumberOfCells() > 0) { // Check if the row has actual cells
+                rowCount++;
+            }
+        }// Get the total number of students (excluding header)
         students = new Student[rowCount]; // Initialize student array
 
         // Loop through each row (starting from row 1, skipping header)

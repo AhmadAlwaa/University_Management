@@ -16,7 +16,13 @@ public class ReadEvents {
         FileInputStream fins = new FileInputStream(new File(FILE_PATH));
         Workbook wb = WorkbookFactory.create(fins);
         Sheet sheet = wb.getSheetAt(4);
-        int rowCount = sheet.getLastRowNum(); // Total students (excluding header)
+        int rowCount = 0;
+        for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
+            if (row != null && row.getPhysicalNumberOfCells() > 0) { // Check if the row has actual cells
+                rowCount++;
+            }
+        } // Total students (excluding header)
         events = new Event[rowCount]; // Initialize array with row count
         for (int i = 1; i <= rowCount; i++) { // Start from row 1 (skip header)
             Row row = sheet.getRow(i);
