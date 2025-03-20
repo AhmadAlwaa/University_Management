@@ -384,9 +384,14 @@ public class AdminDash implements Initializable {
             }
         }
         courseInfo.setItems(courseList);
+        courseInfo.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Double-click opens details
+                Course selectedCourse = courseInfo.getSelectionModel().getSelectedItem();
+            }
+        });
     }
     @FXML
-    private void faculty() throws IOException {
+    public void faculty() throws IOException {
         facultyList.getItems().clear();
         ReadingFaculties.loadFaculties();
         Faculties[] faculties = ReadingFaculties.getAllFaculty();
@@ -414,7 +419,7 @@ public class AdminDash implements Initializable {
                 facultyDetailsController controller = loader.getController();
                 Stage detailsStage = new Stage();
                 System.out.println(name);
-                controller.setFacultyDetails(name);
+                controller.setFacultyDetails(name, this);
 
                 detailsStage.setTitle("Faculty Details");
                 detailsStage.setScene(new Scene(root));

@@ -11,7 +11,13 @@ public class deleteStudent {
         FileInputStream fins = new FileInputStream(new File(FILE_PATH));
         Workbook wb = WorkbookFactory.create(fins);
         Sheet sheet = wb.getSheetAt(2);
-        int rowCount = sheet.getLastRowNum();
+        int rowCount = 0;
+        for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
+            if (row != null && row.getPhysicalNumberOfCells() > 0) { // Check if the row has actual cells
+                rowCount++;
+            }
+        }
         int rowIndexToDelete = -1;
 
         for (int i = 1; i <= rowCount; i++) {
@@ -45,9 +51,6 @@ public class deleteStudent {
                     }
                 }
             }
-            System.out.println("Student " + studentID + " deleted.");
-        } else {
-            System.out.println("Student not found!");
         }
 
         try (FileOutputStream fos = new FileOutputStream(FILE_PATH)) {
