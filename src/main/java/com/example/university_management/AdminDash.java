@@ -63,6 +63,7 @@ public class AdminDash implements Initializable {
     @FXML private TableColumn<Course, String> teacherName;
     @FXML private ListView<String> facultyList;
     @FXML private Text studentText;
+    @FXML private Button deleteCourses;
     static String name;
     static String address;
     static String telephone;
@@ -383,11 +384,25 @@ public class AdminDash implements Initializable {
                 courseList.add(course1);
             }
         }
+        String code;
+        final Course[] selectedCourse = new Course[1];
         courseInfo.setItems(courseList);
         courseInfo.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) { // Double-click opens details
-                Course selectedCourse = courseInfo.getSelectionModel().getSelectedItem();
+                selectedCourse[0] = courseInfo.getSelectionModel().getSelectedItem();
+                deleteCourses.setText("Delete "+ selectedCourse[0].courseName);
+
             }
+        });
+        deleteCourses.setOnAction(event -> {
+
+            try {
+                Course.deleteCourse(selectedCourse[0].courseName);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            courseInfo.getItems().remove(selectedCourse[0]);
+            deleteCourses.setText("Delete Subject");
         });
     }
     @FXML
