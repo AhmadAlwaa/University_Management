@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -27,6 +28,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class AdminDash implements Initializable {
+    @FXML private TextField textEvent;
+    @FXML private Button addEvent;
     @FXML private TableView<Course> courseInfo;
     @FXML private Button collapseButton;
     @FXML private Label totalEvents;
@@ -60,6 +63,13 @@ public class AdminDash implements Initializable {
     @FXML private TableColumn<Course, String> location;
     @FXML private TableColumn<Course, String> teacherName;
     @FXML private ListView<String> facultyList;
+    @FXML private Text studentText;
+    static String name;
+    static String address;
+    static String telephone;
+    static String email;
+    private int counterText = 0;
+    @FXML private Text eventText;
     @FXML
     public void initialize() {
         // Bind columns to Student properties
@@ -451,5 +461,67 @@ public class AdminDash implements Initializable {
             if(!(event.eventName.isEmpty())) count4 +=1;
         }
         totalEvents.setText(String.valueOf(count4));
+    }
+    @FXML
+    private void addEvent(){
+        String academicLevel = "Undergraduate";
+        String currSem = "Fall 2025";
+        String profilePhoto = "default";
+        String subjRej = "";
+        String thesis = "";
+        String progress = "0%";
+        AddStudent student = new AddStudent("", "default123", name, address, telephone, email, academicLevel, currSem, profilePhoto, subjRej, thesis, progress);
+        student.addStudent();
+        studentTable.getItems().add(student);
+        addEvent.setVisible(false);
+
+    }
+    @FXML
+    private void clearText(){
+        textEvent.setOnKeyPressed(keyEvent -> {
+            if (!textEvent.getText().isEmpty()){
+                if(keyEvent.getCode() == KeyCode.ENTER) {
+                    fields();
+                    textEvent.clear();
+                    counterText++;
+                }
+            }
+                });
+    }
+    private void fields() {
+        switch (counterText) {
+            case 0:
+                name = textEvent.getText();
+                eventText.setText("Enter Address");
+                studentText.setText("Name: " + name);
+                break;
+            case 1:
+                address = textEvent.getText();
+                eventText.setText("Enter Telephone");
+                studentText.setText("Name: " + name +"  Address: " + address);
+                break;
+            case 2:
+                telephone = textEvent.getText();
+                eventText.setText("Enter Email");
+                studentText.setText("Name: " + name +"  Address: " + address +"     Telephone: " + telephone);
+                break;
+            case 3:
+                email = textEvent.getText();
+                eventText.setText("Enter Name");
+                studentText.setText("Name: " + name +"  Address: " + address +"     Telephone: " + telephone+ "     Email: " + email);
+                addEvent.setVisible(true);
+                break;
+        }
+    }
+    @FXML
+    private void logOut() throws IOException {
+        Stage stage = (Stage) deleteSubjectBtn.getScene().getWindow();
+        stage.close();
+        FXMLLoader fxmlLoader = new FXMLLoader(loginScreen.class.getResource("login.fxml")); //references the fxml called login
+        Scene scene = new Scene(fxmlLoader.load(), 700, 500); //open login.fxml with dimensions 700 width and 500 height
+        stage.setTitle("University Management System"); //sets the login screen title to university management system
+        stage.setScene(scene);
+        stage.show();
+
     }
 }

@@ -257,6 +257,7 @@
           </Tab>
         </tabs>
       </TabPane>
+      <Button layoutX="50.0" layoutY="30.0" mnemonicParsing="false" text="LogOut" />
       <Button fx:id="collapseButton" mnemonicParsing="false" onAction="#collapseMenu" text="Collapse Menu" translateX="30.0" />
       <Rectangle fx:id="hide" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="750.0" stroke="TRANSPARENT" strokeType="INSIDE" visible="false" width="30.0" />
    </children>

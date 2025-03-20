@@ -166,10 +166,10 @@
                      <children>
                         <BorderPane prefHeight="750.0" prefWidth="848.0">
                            <center>
-                              <GridPane prefHeight="750.0" prefWidth="834.0" BorderPane.alignment="CENTER">
+                              <GridPane prefHeight="561.0" prefWidth="848.0" BorderPane.alignment="CENTER">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="283.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="629.0" minWidth="10.0" prefWidth="592.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="216.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="646.0" minWidth="10.0" prefWidth="632.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints maxHeight="261.0" minHeight="10.0" prefHeight="255.0" vgrow="SOMETIMES" />
@@ -184,6 +184,14 @@
                                           <TableColumn fx:id="colmStudentEmail" prefWidth="256.0" text="Student Email" />
                                       </columns>
                                     </TableView>
+                                    <AnchorPane prefHeight="197.0" prefWidth="848.0" GridPane.columnIndex="1">
+                                       <children>
+                                          <TextField fx:id="textEvent" layoutX="34.0" layoutY="207.0" onAction="#clearText" />
+                                          <Button fx:id="addEvent" layoutX="82.0" layoutY="174.0" mnemonicParsing="false" onAction="#addEvent" text="Button" visible="false" />
+                                          <Text fx:id="eventText" layoutX="77.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Name" />
+                                          <Text fx:id="studentText" layoutX="183.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                       </children>
+                                    </AnchorPane>
                                  </children>
                               </GridPane>
                            </center>
@@ -260,6 +268,7 @@
               </Tab>
           </tabs>
       </TabPane>
+      <Button layoutX="45.0" layoutY="35.0" mnemonicParsing="false" onAction="#logOut" style="-fx-background-color: red;" text="Logout" />
       <Button fx:id="collapseButton" mnemonicParsing="false" onAction="#collapseMenu" prefHeight="25.0" prefWidth="96.0" text="Collapse Menu" translateX="30.0" />
    </children>
 </AnchorPane>

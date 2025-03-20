@@ -21,6 +21,7 @@ public class DashBoard extends Application {
         stage.setTitle("University Management System");
         // Attach the scene to the stage and display the window
         stage.setScene(scene);
+        stage.setResizable(true);
         stage.show();
     }
 }
