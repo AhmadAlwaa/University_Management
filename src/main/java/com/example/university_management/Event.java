@@ -57,5 +57,8 @@ public class Event {
     public String getRegStudents() {
         return regStudents;
     }
+    public void addEvent(){
+
+    }
 }
 

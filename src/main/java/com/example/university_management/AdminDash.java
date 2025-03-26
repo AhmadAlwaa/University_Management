@@ -18,14 +18,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AdminDash implements Initializable {
     @FXML private TextField textEvent;
@@ -64,6 +62,18 @@ public class AdminDash implements Initializable {
     @FXML private ListView<String> facultyList;
     @FXML private Text studentText;
     @FXML private Button deleteCourses;
+    @FXML private Label capacityLabel;
+    @FXML private Slider capacitySlider;
+    @FXML private Label costLabel;
+    @FXML private Slider costSlider;
+    @FXML private DatePicker addEventDate;
+    @FXML private TextField eventName;
+    @FXML private TextField eventLocation;
+    @FXML private Button addEventBtn;
+    @FXML private TextField eventNameField;
+    @FXML private TextField eventLocationField;
+    @FXML private Slider timeSlider;
+    @FXML private  Label timeLabel;
     static String name;
     static String address;
     static String telephone;
@@ -187,7 +197,23 @@ public class AdminDash implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        capacitySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            capacityLabel.setText("Capacity: " + Math.round(capacitySlider.getValue()));
+        });
+        costSlider.valueProperty().addListener((observable, oldValue, newValue) ->{
+            costLabel.setText("Cost: " + String.format("%.2f", costSlider.getValue()));
+        });
+        timeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            timeLabel.setText(String.format("%.2f", timeSlider.getValue()));
+        });
+        addEventBtn.setStyle("-fx-background-color: "
+                + "linear-gradient(#f49794, #ff6666), "
+                + "radial-gradient(center 50% -40%, radius 200%, #ff7f7f 45%, #b30000 50%); "
+                + "-fx-background-radius: 6, 5; "
+                + "-fx-background-insets: 0, 1; "
+                + "-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 5, 0.0, 0, 1); "
+                + "-fx-text-fill: white; "
+                + "-fx-font-weight: bold;");
     }
     @FXML
     void backOneMonth() throws IOException { //goes back one month
@@ -202,31 +228,34 @@ public class AdminDash implements Initializable {
         drawCalendar();
     }
     private void drawCalendar() throws IOException {
-        year.setText(String.valueOf(dateFocus.getYear())); //sets year text to current year
-        month.setText(String.valueOf(dateFocus.getMonth())); //sets month text to current month
+        year.setText(String.valueOf(dateFocus.getYear())); // Set year text
+        month.setText(String.valueOf(dateFocus.getMonth())); // Set month text
 
-        double calendarWidth = calendar.getPrefWidth(); //gets the calendar width
+        double calendarWidth = calendar.getPrefWidth();
         double calendarHeight = calendar.getPrefHeight();
-        double strokeWidth = 1; //sets the calendar stroke width boxes to 1
+        double strokeWidth = 2;
         double spacingH = calendar.getHgap();
         double spacingV = calendar.getVgap();
 
-        //List of activities for a given month
         Map<Integer, List<CalendarActivity>> calendarActivityMap = getCalendarActivitiesMonth(dateFocus);
+        Map<Integer, StackPane> dateStackPaneMap = new HashMap<>(); // Store stack panes for each date
 
         int monthMaxDate = dateFocus.getMonth().maxLength();
-        //Check for leap year
         if (dateFocus.getYear() % 4 != 0 && monthMaxDate == 29) {
             monthMaxDate = 28;
         }
         int dateOffset = ZonedDateTime.of(dateFocus.getYear(), dateFocus.getMonthValue(), 1, 0, 0, 0, 0, dateFocus.getZone()).getDayOfWeek().getValue();
 
-        for (int i = 0; i < 6; i++) { //creates day and weeks
+        for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
                 StackPane stackPane = new StackPane();
                 Rectangle rectangle = new Rectangle();
-                rectangle.setFill(Color.TRANSPARENT);
+                rectangle.setArcWidth(30);
+                rectangle.setArcHeight(30);
+                rectangle.setFill(Color.rgb(255, 99, 71, 0.5));
                 rectangle.setStroke(Color.BLACK);
+                rectangle.setOnMouseEntered(event -> rectangle.setFill(Color.LIGHTBLUE));
+                rectangle.setOnMouseExited(event -> rectangle.setFill(Color.rgb(255, 99, 71, 0.5)));
                 rectangle.setStrokeWidth(strokeWidth);
                 double rectangleWidth = (calendarWidth / 7) - strokeWidth - spacingH;
                 rectangle.setWidth(rectangleWidth);
@@ -235,20 +264,30 @@ public class AdminDash implements Initializable {
                 stackPane.getChildren().add(rectangle);
 
                 int calculatedDate = (j + 1) + (7 * i);
+
+                rectangle.setOnMousePressed(event -> {
+                    if (calculatedDate - dateOffset > 0 && calculatedDate - dateOffset <= dateFocus.getMonth().maxLength()) {
+                        LocalDate selectedDate = LocalDate.of(dateFocus.getYear(), dateFocus.getMonthValue(), calculatedDate - dateOffset);
+                        addEventDate.setValue(selectedDate);
+                    }
+                });
+
                 if (calculatedDate > dateOffset) {
                     int currentDate = calculatedDate - dateOffset;
                     if (currentDate <= monthMaxDate) {
                         Text date = new Text(String.valueOf(currentDate));
                         double textTranslationY = -(rectangleHeight / 2) * 0.75;
+                        date.setFill(Color.rgb(59, 69, 1, 0.95));
                         date.setTranslateY(textTranslationY);
                         stackPane.getChildren().add(date);
+
+                        dateStackPaneMap.put(currentDate, stackPane); // Store stackPane for this date
 
                         List<CalendarActivity> calendarActivities = calendarActivityMap.get(currentDate);
                         if (calendarActivities != null) {
                             createCalendarActivity(calendarActivities, rectangleHeight, rectangleWidth, stackPane);
                         }
                     }
-                    //sets the rectangle of current day to blue
                     if (today.getYear() == dateFocus.getYear() && today.getMonth() == dateFocus.getMonth() && today.getDayOfMonth() == currentDate) {
                         rectangle.setStroke(Color.BLUE);
                     }
@@ -256,37 +295,60 @@ public class AdminDash implements Initializable {
                 calendar.getChildren().add(stackPane);
             }
         }
+
+        addEventBtn.setOnAction(event -> {
+            LocalDate selectedDate = addEventDate.getValue();
+            String eventName = eventNameField.getText();
+            String eventDescription = eventLocationField.getText();
+            String time = timeLabel.getText();
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            String formattedTime = time.replace(".", ":");
+            LocalTime localTime = LocalTime.parse(formattedTime, timeFormatter);
+
+            if (selectedDate != null && eventName != null && !eventName.isEmpty() && !eventDescription.isEmpty()) {
+                ZonedDateTime eventDateTime = ZonedDateTime.of(selectedDate, localTime, ZoneId.systemDefault());
+                eventNameField.clear();
+                eventLocationField.clear();
+                addEventDate.setValue(null);
+
+                StackPane selectedStackPane = dateStackPaneMap.get(selectedDate.getDayOfMonth());
+                if (selectedStackPane != null) {
+                    CalendarActivity activity = new CalendarActivity(eventDateTime, eventName, eventDescription);
+                    List<CalendarActivity> calendarActivities = calendarActivityMap.computeIfAbsent(selectedDate.getDayOfMonth(), k -> new ArrayList<>());
+                    calendarActivities.add(activity);
+
+                    // Remove duplicate event title and use only createCalendarActivity
+                    selectedStackPane.getChildren().removeIf(node -> node instanceof VBox);
+                    createCalendarActivity(calendarActivities, (calendarHeight / 6) - strokeWidth - spacingV, (calendarWidth / 7) - strokeWidth - spacingH, selectedStackPane);
+                }
+            }
+        });
     }
     private void createCalendarActivity(List<CalendarActivity> calendarActivities, double rectangleHeight, double rectangleWidth, StackPane stackPane) {
         VBox calendarActivityBox = new VBox();
+        calendarActivityBox.setSpacing(2);
+        calendarActivityBox.setMaxWidth(rectangleWidth * 0.9);
+        calendarActivityBox.setMaxHeight(rectangleHeight * 0.8);
         for (int k = 0; k < calendarActivities.size(); k++) {
-            if(k >= 2) {
+            if (k >= 2) {
                 Text moreActivities = new Text("...");
                 calendarActivityBox.getChildren().add(moreActivities);
-                moreActivities.setOnMouseClicked(mouseEvent -> {
-                    //On ... click print all activities for given date
-                    System.out.println(calendarActivities);
-                });
                 break;
             }
-            Text text = new Text(calendarActivities.get(k).getClientName() + ", \n" +calendarActivities.get(k).getServiceNo() + ", \n" + calendarActivities.get(k).getDate().toLocalTime());
-            text.setWrappingWidth(rectangleWidth * 0.8);
-            calendarActivityBox.getChildren().add(text);
-            int finalK1 = k;
+            Text text = new Text(calendarActivities.get(k).getClientName() + ", " + calendarActivities.get(k).getDate().toLocalTime());
+            text.setWrappingWidth(rectangleWidth * 0.85); // Prevent text overflow
+            text.setStyle("-fx-font-size: 12px; -fx-fill: black;"); // Make text visible
+
+            int finalK = k;
             text.setOnMouseClicked(mouseEvent -> {
-                //On Text clicked
                 System.out.println(text.getText());
                 try {
-                    // Load FXML
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("eventDetails.fxml"));
                     Parent root = loader.load();
-
-                    // Get controller and pass student data
                     EventDetailsController controller = loader.getController();
                     Stage detailsStage = new Stage();
-                    controller.setEventDetails(calendarActivities.get(finalK1).getClientName());
+                    controller.setEventDetails(calendarActivities.get(finalK).getClientName());
 
-                    // Setup stage
                     detailsStage.setTitle("Event Details");
                     detailsStage.setScene(new Scene(root));
                     detailsStage.show();
@@ -294,11 +356,11 @@ public class AdminDash implements Initializable {
                     e.printStackTrace();
                 }
             });
+            text.setOnMouseEntered(mouseEvent -> text.setStyle("-fx-font-size: 12px; -fx-fill: #ae4802;"));
+            text.setOnMouseExited(mouseEvent -> text.setStyle("-fx-font-size: 12px; -fx-fill: black;"));
+            calendarActivityBox.getChildren().add(text);
         }
         calendarActivityBox.setTranslateY((rectangleHeight / 2) * 0.20);
-        calendarActivityBox.setMaxWidth(rectangleWidth * 0.8);
-        calendarActivityBox.setMaxHeight(rectangleHeight * 0.65);
-        calendarActivityBox.setStyle("-fx-background-color:GRAY");
         stackPane.getChildren().add(calendarActivityBox);
     }
 

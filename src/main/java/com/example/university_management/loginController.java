@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -44,6 +45,51 @@ public class loginController {
 
     @FXML
     void mouseDown(javafx.event.ActionEvent event) throws IOException {  //when the login button is clicked this function is called
+        login();
+    }
+    @FXML
+    public void initialize() {
+        ID.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.DOWN){
+                passWord.requestFocus();
+            }
+            else if(keyEvent.getCode() == KeyCode.ENTER){
+                try {
+                    login();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+                }
+                );
+        passWord.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.UP){
+                ID.requestFocus();
+            }
+            else if(keyEvent.getCode() == KeyCode.ENTER){
+                try {
+                    login();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        // Listener for width changes
+        loginPage.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            //image.setFitWidth(newWidth.doubleValue()/3.5); // Resize width
+            //image.setLayoutX((newWidth.doubleValue() - image.getFitWidth()) / 2 +25);
+            loginPage.setMinWidth(newWidth.doubleValue()/3.5);
+
+        });
+
+        // Listener for height changes
+        loginPage.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+            //image.setFitHeight(newHeight.doubleValue()/1.3); // Resize height
+            loginPage.setMinHeight(newHeight.doubleValue()/3.5);
+            //image.setLayoutY((newHeight.doubleValue() - image.getFitHeight()) +50);
+        });
+    }
+    private void login() throws IOException {
         String enteredID = ID.getText(); //set id to what is entered in the id text field
         String enteredPass = passWord.getText(); // set password from what is entered into password field
         Reading_Student.loadStudentCredentials();
@@ -68,22 +114,5 @@ public class loginController {
         else {
             incorrectID.setText("Incorrect Username or Password"); //otherwise say incorrect username or password
         }
-    }
-    @FXML
-    public void initialize() {
-        // Listener for width changes
-        loginPage.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            //image.setFitWidth(newWidth.doubleValue()/3.5); // Resize width
-            //image.setLayoutX((newWidth.doubleValue() - image.getFitWidth()) / 2 +25);
-            loginPage.setMinWidth(newWidth.doubleValue()/3.5);
-
-        });
-
-        // Listener for height changes
-        loginPage.heightProperty().addListener((obs, oldHeight, newHeight) -> {
-            //image.setFitHeight(newHeight.doubleValue()/1.3); // Resize height
-            loginPage.setMinHeight(newHeight.doubleValue()/3.5);
-            //image.setLayoutY((newHeight.doubleValue() - image.getFitHeight()) +50);
-        });
     }
 }
