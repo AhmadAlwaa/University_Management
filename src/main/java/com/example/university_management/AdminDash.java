@@ -299,21 +299,25 @@ public class AdminDash implements Initializable {
         addEventBtn.setOnAction(event -> {
             LocalDate selectedDate = addEventDate.getValue();
             String eventName = eventNameField.getText();
-            String eventDescription = eventLocationField.getText();
+            String eventLocation = eventLocationField.getText();
             String time = timeLabel.getText();
+            String eventCapacity = String.valueOf(Math.round(capacitySlider.getValue()));
+            String eventCost = String.valueOf(costSlider.getValue());
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             String formattedTime = time.replace(".", ":");
             LocalTime localTime = LocalTime.parse(formattedTime, timeFormatter);
 
-            if (selectedDate != null && eventName != null && !eventName.isEmpty() && !eventDescription.isEmpty()) {
+            if (selectedDate != null && eventName != null && !eventName.isEmpty() && !eventLocation.isEmpty()) {
                 ZonedDateTime eventDateTime = ZonedDateTime.of(selectedDate, localTime, ZoneId.systemDefault());
                 eventNameField.clear();
                 eventLocationField.clear();
                 addEventDate.setValue(null);
-
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+                String formatedDate = eventDateTime.format(formatter);
+                Event.addEvent(eventName, "No Description",eventLocation, String.valueOf(formatedDate),eventCapacity, eventCost );
                 StackPane selectedStackPane = dateStackPaneMap.get(selectedDate.getDayOfMonth());
                 if (selectedStackPane != null) {
-                    CalendarActivity activity = new CalendarActivity(eventDateTime, eventName, eventDescription);
+                    CalendarActivity activity = new CalendarActivity(eventDateTime, eventName, eventLocation);
                     List<CalendarActivity> calendarActivities = calendarActivityMap.computeIfAbsent(selectedDate.getDayOfMonth(), k -> new ArrayList<>());
                     calendarActivities.add(activity);
 
