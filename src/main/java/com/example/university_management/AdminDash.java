@@ -351,7 +351,7 @@ public class AdminDash implements Initializable {
                     Parent root = loader.load();
                     EventDetailsController controller = loader.getController();
                     Stage detailsStage = new Stage();
-                    controller.setEventDetails(calendarActivities.get(finalK).getClientName());
+                    controller.setEventDetails(calendarActivities.get(finalK).getClientName(), this);
 
                     detailsStage.setTitle("Event Details");
                     detailsStage.setScene(new Scene(root));
@@ -608,5 +608,9 @@ public class AdminDash implements Initializable {
         stage.setScene(scene);
         stage.show();
 
+    }
+    public void refreshEvents() throws IOException {
+        calendar.getChildren().clear();
+        drawCalendar();
     }
 }

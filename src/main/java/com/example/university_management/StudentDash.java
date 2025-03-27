@@ -306,7 +306,7 @@ public class StudentDash implements Initializable {
                     // Get controller and pass student data
                     EventDetailsController controller = loader.getController();
                     Stage detailsStage = new Stage();
-                    controller.setEventDetails(calendarActivities.get(finalK1).getClientName());
+                    controller.setEventDetails(calendarActivities.get(finalK1).getClientName(), null);
 
                     // Setup stage
                     detailsStage.setTitle("Event Details");

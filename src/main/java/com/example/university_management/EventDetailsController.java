@@ -16,12 +16,31 @@ public class EventDetailsController {
     @FXML private  Text errorText;
     @FXML private ListView<String> eventDetailsList;
     @FXML private Button regButton;
-    public void setEventDetails(String eventName) throws IOException {
+    @FXML private Button deleteEvent;
+    public void setEventDetails(String eventName, AdminDash adminDash) throws IOException {
         regButton.setVisible(!loginController.role.equals("ADMIN"));
+        deleteEvent.setVisible(false);
         eventDetailsList.getItems().clear();
         errorText.setVisible(false);
         ReadEvents.loadEvents();
         Event[] event = ReadEvents.getAllEvents();
+        if(loginController.role.equals("ADMIN")){
+            deleteEvent.setVisible(true);
+        }
+        deleteEvent.setOnAction(MouseEvent -> {
+            try {
+                Event.deleteEvent(eventName);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                adminDash.refreshEvents();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Stage stage = (Stage) deleteEvent.getScene().getWindow();
+            stage.close();
+        });
         for (Event event1: event) {
             if (event1 == null || event1.dateAndTime == null || event1.dateAndTime.trim().isEmpty()) {
                 continue;  // Skip if invalid
@@ -68,4 +87,5 @@ public class EventDetailsController {
         }
 
     }
+
 }
