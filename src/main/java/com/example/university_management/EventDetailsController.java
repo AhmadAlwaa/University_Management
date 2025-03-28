@@ -2,12 +2,14 @@ package com.example.university_management;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -16,13 +18,16 @@ public class EventDetailsController {
     @FXML private  Text errorText;
     @FXML private ListView<String> eventDetailsList;
     @FXML private Button regButton;
+    @FXML private ListView<String> regStudents;
     @FXML private Button deleteEvent;
+    @FXML private StackPane defaultPic;
     public void setEventDetails(String eventName, AdminDash adminDash) throws IOException {
         regButton.setVisible(!loginController.role.equals("ADMIN"));
         deleteEvent.setVisible(false);
         eventDetailsList.getItems().clear();
         errorText.setVisible(false);
         ReadEvents.loadEvents();
+        String profilePicPath;
         Event[] event = ReadEvents.getAllEvents();
         if(loginController.role.equals("ADMIN")){
             deleteEvent.setVisible(true);
@@ -53,8 +58,19 @@ public class EventDetailsController {
                 eventDetailsList.getItems().add("Date and Time: " +event1.dateAndTime);
                 eventDetailsList.getItems().add("Capacity: " +event1.capacity);
                 eventDetailsList.getItems().add("Cost: "+event1.cost);
-                eventDetailsList.getItems().add("Image: " +event1.image);
-                eventDetailsList.getItems().add("Registered Students: " +event1.regStudents);
+                if (event1.image.equals("default")){
+                    profilePicPath = loginController.defaultImagePath + "defaultBackground.png";
+                }
+                else profilePicPath = event1.image;
+                defaultPic.setStyle("-fx-background-image: url('" + profilePicPath + "'); " +
+                        "-fx-background-size: cover; " +
+                        "-fx-background-radius: 50%; " +
+                        "-fx-min-width: 134px; -fx-min-height: 100px;");
+                List<String> names = Arrays.asList(event1.regStudents.split(","));
+                for(String name: names){
+                    regStudents.getItems().add(name);
+                }
+
                 regButton.setOnMouseClicked(MouseEvent ->{
                     try {
                         if(loginController.role.equals("USER")){

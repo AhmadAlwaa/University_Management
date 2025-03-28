@@ -51,7 +51,7 @@ public class StudentDetailsController {
         // Display profile picture
         String profilePicPath = student.getProfilePhoto();
         if (profilePicPath != null && !profilePicPath.isEmpty()) {
-            if (student.profilePhoto.equals("default")) profilePicPath = "file:/C:/Users/Ahmad/IdeaProjects/University_Management/src/main/resources/profilePic.png";
+            if (student.profilePhoto.equals("default")) profilePicPath = loginController.defaultImagePath + "profilePic.png";
             profilePic.setStyle("-fx-background-image: url('" + profilePicPath + "'); " +
                     "-fx-background-size: cover; " +
                     "-fx-background-radius: 50%; " +

@@ -20,7 +20,8 @@ public class loginController {
     private static final Logger log = LogManager.getLogger(loginController.class);
     public static String role = "USER"; // Public role variable set to USER by default
     public static String user; // Make user static variable called user
-    public static String filePath = "C:\\Users\\Ahmad\\Downloads\\UMS_Data.xlsx";
+    public static final String filePath = "C:\\Users\\Ahmad\\Downloads\\UMS_Data.xlsx";
+    public static final String defaultImagePath = "file:/C:/Users/Ahmad/IdeaProjects/University_Management/src/main/resources/";
     @FXML  private Button login; //references to the button in login.fxml called login
     @FXML private AnchorPane anchorPane;
     @FXML private ImageView image;

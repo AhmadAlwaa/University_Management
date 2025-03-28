@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -74,6 +75,12 @@ public class AdminDash implements Initializable {
     @FXML private TextField eventLocationField;
     @FXML private Slider timeSlider;
     @FXML private  Label timeLabel;
+    @FXML private ChoiceBox<String> coursesOffered;
+    @FXML private ChoiceBox<String> degree;
+    @FXML private Button addFaculty;
+    @FXML private TextField facultyName;
+    @FXML private TextField researchIntereset;
+    @FXML private TextField officeLocation;
     static String name;
     static String address;
     static String telephone;
@@ -476,11 +483,11 @@ public class AdminDash implements Initializable {
         facultyList.getItems().clear();
         ReadingFaculties.loadFaculties();
         Faculties[] faculties = ReadingFaculties.getAllFaculty();
-        for (Faculties faculties1: faculties){
-            if (faculties1 == null){
+        for (Faculties faculties1 : faculties) {
+            if (faculties1 == null) {
                 continue;
             }
-            if(!(faculties1.name.isEmpty())){
+            if (!(faculties1.name.isEmpty())) {
                 facultyList.getItems().add("Name: " + faculties1.name + "         ID: " + faculties1.ID);
             }
         }
@@ -505,9 +512,45 @@ public class AdminDash implements Initializable {
                 detailsStage.setTitle("Faculty Details");
                 detailsStage.setScene(new Scene(root));
                 detailsStage.show();
-            }catch(IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+        });
+        coursesOffered.getItems().clear();
+        coursesOffered.setValue("Select Course Offered");
+        coursesOffered.getItems().add("Select Courses Offered");
+        ReadingCourses.loadCourses();
+        Course[] courses = ReadingCourses.getAllCourseInfo();
+        Set<String> seenNames = new HashSet<>();
+        degree.getItems().clear();
+        degree.setValue("Select Degree");
+        degree.getItems().add("Select Degree");
+        degree.getItems().add("Ph.D");
+        degree.getItems().add("Master's");
+        for (Course course : courses) {
+            if (seenNames.add(course.courseName)) {
+                // If courseName is new, add to coursesOffered
+                coursesOffered.getItems().add(course.courseName);
+            }
+        }
+
+        coursesOffered.getItems().removeLast();
+        addFaculty.setOnAction(MouseEvent ->{
+            String newId = null;
+            for (Faculties faculties1 : faculties) {
+                if (faculties1 == null){
+                    break;
+                }
+                int number = Integer.parseInt(faculties1.ID.substring(1));
+                number++;
+                newId = String.format("F%04d", number);
+            }
+            int lastSpace = facultyName.getText().lastIndexOf(" ");
+            String lastName = facultyName.getText().substring(lastSpace+1);
+
+            Faculties faculty = new Faculties(newId, facultyName.getText(), degree.getValue(), researchIntereset.getText(), lastName.toLowerCase() + "@university.edu", officeLocation.getText(), coursesOffered.getValue(), "default123");
+            facultyList.getItems().add("Name: " + faculty.name + "         ID: " + faculty.ID);
+            Faculties.addFaculty(faculty);
         });
     }
     @FXML

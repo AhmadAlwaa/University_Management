@@ -26,6 +26,54 @@ public class Faculties {
         this.coursesOffered = coursesOffered;
         this.password = password;
     }
+    public static void addFaculty(Faculties faculty){
+        String FILE_PATH = loginController.filePath;
+        FileInputStream fis = null;
+        Workbook wb = null;
+        FileOutputStream fos = null;
+
+        try {
+            // Open the existing Excel file
+            fis = new FileInputStream(new File(FILE_PATH));
+            wb = WorkbookFactory.create(fis);
+            fis.close(); // Close input stream after loading the workbook
+
+            // Get the sheet by index (assuming student data is in the third sheet)
+            Sheet sheet = wb.getSheetAt(3);
+            if (sheet == null) {
+                return;
+            }
+            int lastUsedRow = -1; // Track last row with data
+            for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+                if (row != null && row.getCell(0) != null && !row.getCell(0).getStringCellValue().isEmpty()) {
+                    lastUsedRow = i;
+                }
+            }
+            int firstEmptyRow = lastUsedRow + 1; // Next available row after last used row
+            Row newRow = sheet.createRow(firstEmptyRow);
+            newRow.createCell(0).setCellValue(faculty.ID);
+            newRow.createCell(1).setCellValue(faculty.name);
+            newRow.createCell(2).setCellValue(faculty.degree);
+            newRow.createCell(3).setCellValue(faculty.researchInterest);
+            newRow.createCell(4).setCellValue(faculty.email);
+            newRow.createCell(5).setCellValue(faculty.officeLocation);
+            newRow.createCell(6).setCellValue(faculty.coursesOffered);
+            newRow.createCell(7).setCellValue(faculty.password);
+            fos = new FileOutputStream(new File(FILE_PATH));
+            wb.write(fos);
+            fos.flush();
+        }catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) fos.close();
+                if (wb != null) wb.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
 class DeleteFaculty{
     private static final String FILE_PATH = loginController.filePath;
