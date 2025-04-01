@@ -117,8 +117,9 @@
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
                                           <Button fx:id="deleteSubjectBtn" alignment="CENTER" layoutX="150.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="105.0" style="-fx-background-color: #f47572;" text="Delete Subject" />
-                                          <TextField layoutX="150.0" layoutY="75.0" promptText="Subject Code" />
-                                          <TextField layoutX="150.0" layoutY="125.0" promptText="Subject Name" />
+                                          <TextField fx:id="subjectCodeField" layoutX="150.0" layoutY="75.0" promptText="Subject Code" />
+                                          <TextField fx:id="subjectName" layoutX="150.0" layoutY="125.0" promptText="Subject Name" />
+                                          <Button fx:id="addSubject" layoutX="185.0" layoutY="174.0" mnemonicParsing="false" text="Add Subject" />
                                        </children></AnchorPane>
                                  </children>
                               </VBox>
@@ -140,20 +141,26 @@
                                       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                                   </top>
                                   <left>
-                                      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                      <VBox prefHeight="650.0" prefWidth="197.0" BorderPane.alignment="CENTER">
                                  <children>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <Button fx:id="deleteCourses" layoutX="12.0" layoutY="65.0" mnemonicParsing="false" text="Delete Subject" />
+                                          <Button fx:id="deleteCourses" layoutX="12.0" layoutY="65.0" mnemonicParsing="false" text="Delete Course" />
+                                       </children>
+                                    </AnchorPane>
+                                    <TextField fx:id="addingCourses" />
+                                    <AnchorPane>
+                                       <children>
+                                          <Label fx:id="promptText" layoutX="47.0" text="Enter Course Name" />
                                        </children>
                                     </AnchorPane>
                                  </children></VBox>
                                   </left>
                                   <right>
-                                      <VBox prefHeight="650.0" prefWidth="30.0" BorderPane.alignment="CENTER" />
+                                      <VBox prefHeight="650.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
                                   </right>
                                   <center>
-                                      <TableView fx:id="courseInfo" prefHeight="650.0" prefWidth="714.0" BorderPane.alignment="CENTER">
+                                      <TableView fx:id="courseInfo" prefHeight="650.0" prefWidth="669.0" BorderPane.alignment="CENTER">
                                           <columns>
                                               <TableColumn fx:id="courseCode" prefWidth="50.0" text="Course Code" />
                                               <TableColumn fx:id="courseName" prefWidth="110.0" text="Course Name" />

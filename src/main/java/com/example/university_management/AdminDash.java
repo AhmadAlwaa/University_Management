@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -24,7 +25,7 @@ import java.net.URL;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class AdminDash implements Initializable {
     @FXML private TextField textEvent;
@@ -81,6 +82,11 @@ public class AdminDash implements Initializable {
     @FXML private TextField facultyName;
     @FXML private TextField researchIntereset;
     @FXML private TextField officeLocation;
+    @FXML private  Button addSubject;
+    @FXML private TextField subjectCodeField;
+    @FXML private  TextField subjectName;
+    @FXML private TextField addingCourses;
+    @FXML private Label promptText;
     static String name;
     static String address;
     static String telephone;
@@ -170,6 +176,11 @@ public class AdminDash implements Initializable {
                 adminSubjects.getItems().add(subj.getCode() + " - " + subj.getName()); // Display formatted subject info
             }
         }
+        addSubject.setOnAction(MouseEvent -> {
+            Subject subject = new Subject(subjectCodeField.getText(), subjectName.getText());
+            Subject.addSubject(subject);
+            adminSubjects.getItems().add(subject.code + " - " + subject.name);
+        });
     }
     public void deleteSubject(String subjectDelete) {
         deleteSubjectBtn.setOnAction(actionEvent -> {
@@ -452,11 +463,85 @@ public class AdminDash implements Initializable {
         teacherName.setCellValueFactory(new PropertyValueFactory<>("teacherName"));
         ObservableList<Course> courseList = FXCollections.observableArrayList();
         Course[] courses = ReadingCourses.getAllCourseInfo();
+
         for(Course course1: courses){
             if(!(course1.courseName.isEmpty())){
                 courseList.add(course1);
             }
         }
+        AtomicInteger count = new AtomicInteger(0); // Move outside so it persists across events
+
+        Course course = new Course(null, null, null, null, null, null, null, null, null);
+        promptText.setText("Enter Course Name");
+
+        addingCourses.setOnKeyPressed(KeyEvent -> {
+            if (KeyEvent.getCode() == KeyCode.ENTER) {
+                switch (count.getAndIncrement()) { // Get count value first, then increment
+                    case 0:
+                        course.courseName = addingCourses.getText();
+                        promptText.setText("Enter Subject Code");
+                        addingCourses.clear();
+                        break;
+                    case 1:
+                        course.subjectCode = addingCourses.getText();
+                        promptText.setText("Enter Section Number");
+                        addingCourses.clear();
+                        break;
+                    case 2:
+                        course.sectionNumber = "Section Number" + addingCourses.getText();
+                        promptText.setText("Enter Capacity");
+                        addingCourses.clear();
+                        break;
+                    case 3:
+                        course.capacity = addingCourses.getText();
+                        promptText.setText("Enter Lecture Time");
+                        addingCourses.clear();
+                        break;
+                    case 4:
+                        course.lectureTime = addingCourses.getText();
+                        promptText.setText("Enter Final Exam Date");
+                        addingCourses.clear();
+                        break;
+                    case 5:
+                        course.finalExamDate = addingCourses.getText();
+                        promptText.setText("Enter Location");
+                        addingCourses.clear();
+                        break;
+                    case 6:
+                        course.location = addingCourses.getText();
+                        promptText.setText("Enter Teacher Name");
+                        addingCourses.clear();
+                        break;
+                    case 7:
+                        course.teacherName = addingCourses.getText();
+                        promptText.setText("Enter Course Name");
+                        addingCourses.clear();
+
+                        // Find the next available section number
+                        int i = 0;
+                        for (Course course1 : courses) {
+                            if (course1.courseCode == null) {
+                                break;
+                            }
+                            i++;
+                        }
+                        course.courseCode = String.valueOf(i);
+
+                        try {
+                            Course.addCourse(course);
+                            System.out.println("ADDING COURSE");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        // Reset count after completion
+                        count.set(0);
+                        courseList.add(course);
+                        addingCourses.deselect();
+                        break;
+                }
+            }
+        });
         String code;
         final Course[] selectedCourse = new Course[1];
         courseInfo.setItems(courseList);
@@ -477,6 +562,7 @@ public class AdminDash implements Initializable {
             courseInfo.getItems().remove(selectedCourse[0]);
             deleteCourses.setText("Delete Subject");
         });
+
     }
     @FXML
     public void faculty() throws IOException {

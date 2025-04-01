@@ -18,8 +18,6 @@ import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.fxml.Initializable;
-
-import javax.swing.text.LabelView;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;

@@ -114,4 +114,40 @@ public class Course {
         fins.close();
         wb.close();
     }
+    public static void addCourse(Course course) throws IOException {
+        String FILE_PATH = loginController.filePath;
+        FileInputStream fins = new FileInputStream(new File(FILE_PATH));
+        Workbook wb = WorkbookFactory.create(fins);
+        Sheet sheet = wb.getSheetAt(1);
+
+        // Find the next empty row
+        int lastUsedRow = -1; // Track last row with data
+        for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
+            if (row != null && row.getCell(0) != null && !row.getCell(1).getStringCellValue().isEmpty()) {
+                lastUsedRow = i;
+            }
+        }
+        Row row = sheet.createRow(lastUsedRow);
+
+        row.createCell(0).setCellValue(course.getCourseCode());
+        row.createCell(1).setCellValue(course.getCourseName());
+        row.createCell(2).setCellValue(course.getSubjectCode());
+        row.createCell(3).setCellValue(course.getSectionNumber());
+        row.createCell(4).setCellValue(course.getCapacity());
+        row.createCell(5).setCellValue(course.getLectureTime());
+        row.createCell(6).setCellValue(course.getFinalExamDate());
+        row.createCell(7).setCellValue(course.getLocation());
+        row.createCell(8).setCellValue(course.getTeacherName());
+
+        fins.close();
+
+        // Write changes to file
+        try (FileOutputStream fos = new FileOutputStream(FILE_PATH)) {
+            wb.write(fos);
+        }
+
+        wb.close();
+    }
+
 }
