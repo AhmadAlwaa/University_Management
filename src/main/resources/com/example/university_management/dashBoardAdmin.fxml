@@ -78,22 +78,22 @@
                                       </Label>
                                   </children>
                               </AnchorPane>
-                              <AnchorPane layoutX="188.0" layoutY="321.0" prefHeight="200.0" prefWidth="261.0" style="-fx-background-color: aaaa;">
+                              <AnchorPane layoutX="325.0" layoutY="321.0" prefHeight="200.0" prefWidth="261.0" style="-fx-background-color: aaaa;">
                                   <children>
                                       <Label alignment="CENTER" layoutX="62.0" layoutY="18.0" text="Upcoming Events">
                                           <font>
                                               <Font size="20.0" />
                                           </font>
                                       </Label>
-                                  </children>
-                              </AnchorPane>
-                              <AnchorPane layoutX="541.0" layoutY="321.0" prefHeight="200.0" prefWidth="261.0" style="-fx-background-color: aaaa;">
-                                  <children>
-                                      <Label alignment="CENTER" layoutX="40.0" layoutY="19.0" text="Recent Registrations">
-                                          <font>
-                                              <Font size="20.0" />
-                                          </font>
-                                      </Label>
+                              <Label fx:id="upcomingEvent" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="10.0" layoutY="85.0" prefHeight="27.0" prefWidth="242.0" text="0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="upComingEventDate" alignment="CENTER" layoutX="3.0" layoutY="125.0" prefHeight="27.0" prefWidth="252.0" text="Label">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Label>
                                   </children>
                               </AnchorPane>
                               <Label text="Label" />
@@ -151,7 +151,7 @@
                                     <TextField fx:id="addingCourses" />
                                     <AnchorPane>
                                        <children>
-                                          <Label fx:id="promptText" layoutX="47.0" text="Enter Course Name" />
+                                          <Label fx:id="promptText" alignment="CENTER" layoutX="-1.0" prefHeight="17.0" prefWidth="199.0" text="Enter Course Name" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>

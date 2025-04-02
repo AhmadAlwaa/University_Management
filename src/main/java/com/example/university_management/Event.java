@@ -104,7 +104,7 @@ public class Event {
             newRow.createCell(5).setCellValue(capacity);
             newRow.createCell(6).setCellValue(cost);
             newRow.createCell(7).setCellValue("default");
-            newRow.createCell(8).setCellValue("No Students Registered");
+            newRow.createCell(8).setCellValue("");
             fos = new FileOutputStream(new File(FILE_PATH));
             wb.write(fos);
             fos.flush();

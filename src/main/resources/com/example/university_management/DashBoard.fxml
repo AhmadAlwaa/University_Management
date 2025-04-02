@@ -79,24 +79,6 @@
                                   </Label>
                               </children>
                           </AnchorPane>
-                          <AnchorPane layoutX="188.0" layoutY="321.0" prefHeight="200.0" prefWidth="261.0" style="-fx-background-color: aaaa;">
-                              <children>
-                                  <Label alignment="CENTER" layoutX="62.0" layoutY="18.0" text="Upcoming Events">
-                                      <font>
-                                          <Font size="20.0" />
-                                      </font>
-                                  </Label>
-                              </children>
-                          </AnchorPane>
-                          <AnchorPane layoutX="541.0" layoutY="321.0" prefHeight="200.0" prefWidth="261.0" style="-fx-background-color: aaaa;">
-                              <children>
-                                  <Label alignment="CENTER" layoutX="40.0" layoutY="19.0" text="Recent Registrations">
-                                      <font>
-                                          <Font size="20.0" />
-                                      </font>
-                                  </Label>
-                              </children>
-                          </AnchorPane>
                           <Label text="Label" />
                       </children></AnchorPane>
               </content>

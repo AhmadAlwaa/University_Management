@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 public class loginController {
-    private static final Logger log = LogManager.getLogger(loginController.class);
     public static String role = "USER"; // Public role variable set to USER by default
     public static String user; // Make user static variable called user
     public static final String filePath = "C:\\Users\\Ahmad\\Downloads\\UMS_Data.xlsx";
@@ -96,6 +95,7 @@ public class loginController {
         Reading_Student.loadStudentCredentials();
         ReadingFaculties.loadFaculties();
         if (Reading_Student.verifyLogin(enteredID, enteredPass)) { //called class reading student and function verify login in class passing in entered id and password and check is returned value is true
+            role = "USER";
             user = enteredID; //set variable user to the entered userID
             Stage stage = (Stage) login.getScene().getWindow(); //get current scene using the login button
             DashBoard dashboard = new DashBoard(); //start new window using class dashboard

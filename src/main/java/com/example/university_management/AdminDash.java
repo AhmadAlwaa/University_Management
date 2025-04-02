@@ -91,6 +91,8 @@ public class AdminDash implements Initializable {
     @FXML private ListView<String> studentEnrList;
     @FXML private ChoiceBox<String> studentSelect;
     @FXML private Button enrollStudent;
+    @FXML private Label upcomingEvent;
+    @FXML private Label upComingEventDate;
     static String name;
     static String address;
     static String telephone;
@@ -493,7 +495,7 @@ public class AdminDash implements Initializable {
                         addingCourses.clear();
                         break;
                     case 2:
-                        course.sectionNumber = "Section Number" + addingCourses.getText();
+                        course.sectionNumber = "Section " + addingCourses.getText();
                         promptText.setText("Enter Capacity");
                         addingCourses.clear();
                         break;
@@ -720,6 +722,13 @@ public class AdminDash implements Initializable {
             if(!(event.eventName.isEmpty())) count4 +=1;
         }
         totalEvents.setText(String.valueOf(count4));
+        CalendarActivity event = getUpcomingEvent();
+        upcomingEvent.setText(String.valueOf(event.getClientName()));
+        DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("h:mm M/d/yyyy");
+        String formattedDate = event.getDate().format(displayFormatter);
+        upComingEventDate.setText(formattedDate);
+
+
     }
     private void addEvent(){
         String academicLevel = "Undergraduate";
@@ -786,5 +795,29 @@ public class AdminDash implements Initializable {
     public void refreshEvents() throws IOException {
         calendar.getChildren().clear();
         drawCalendar();
+    }
+    private CalendarActivity getUpcomingEvent() throws IOException {
+        ReadEvents.loadEvents(); // Load events
+        Event[] events = ReadEvents.getAllEvents();
+
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+        CalendarActivity upcomingEvent = null;
+
+        for (Event event : events) {
+            if (event == null || event.dateAndTime == null || event.dateAndTime.trim().isEmpty()) {
+                continue; // Skip invalid events
+            }
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+            ZonedDateTime eventDateTime = LocalDateTime.parse(event.dateAndTime, formatter).atZone(ZoneId.systemDefault());
+
+            if (eventDateTime.isAfter(now)) { // Event is in the future
+                if (upcomingEvent == null || eventDateTime.isBefore(upcomingEvent.getDate())) {
+                    upcomingEvent = new CalendarActivity(eventDateTime, event.eventName, event.location);
+                }
+            }
+        }
+
+        return upcomingEvent;
     }
 }

@@ -31,6 +31,10 @@ public class EventDetailsController {
         Event[] event = ReadEvents.getAllEvents();
         if(loginController.role.equals("ADMIN")){
             deleteEvent.setVisible(true);
+            regStudents.setVisible(true);
+        }else {
+            regButton.setVisible(true);
+            regStudents.setVisible(false);
         }
         deleteEvent.setOnAction(MouseEvent -> {
             try {
@@ -76,7 +80,7 @@ public class EventDetailsController {
                         if(loginController.role.equals("USER")){
                             if (!(event1.regStudents.contains(Objects.requireNonNull(Reading_Student.studentInfo(loginController.user)).name))){
                                 try {
-                                    eventDetailsList.getItems().set(8,"Registered Students: " +  event1.regStudents + ", " + Objects.requireNonNull(Reading_Student.studentInfo(loginController.user)).name);
+                                    regStudents.getItems().add(Objects.requireNonNull(Reading_Student.studentInfo(loginController.user)).name);
                                     EditEvent.editEvent(Objects.requireNonNull(Reading_Student.studentInfo(loginController.user)).name, event1.eventName);
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
@@ -87,8 +91,8 @@ public class EventDetailsController {
                             }
 
                         }
-                        if (!(event1.regStudents.contains(Objects.requireNonNull(ReadingFaculties.facultiesInfo(loginController.user)).name))){
-                            eventDetailsList.getItems().set(8,"Registered Students: " +  event1.regStudents + ", " + Objects.requireNonNull(ReadingFaculties.facultiesInfo(loginController.user)).name);
+                        else if (!(event1.regStudents.contains(Objects.requireNonNull(ReadingFaculties.facultiesInfo(loginController.user)).name))){
+                            regStudents.getItems().add(Objects.requireNonNull(ReadingFaculties.facultiesInfo(loginController.user)).name);
                             EditEvent.editEvent(Objects.requireNonNull(ReadingFaculties.facultiesInfo(loginController.user)).name, event1.eventName);
                         }
                         else{

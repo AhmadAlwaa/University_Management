@@ -525,11 +525,15 @@ public class StudentDash implements Initializable {
                     }
                 }
             }
+            System.out.println(Arrays.toString(sectionCount));
+            System.out.println(Arrays.toString(subjectToCourse));
             int sectionCountLoop = 0;
             for(String coursesInList: subjectToCourse){
                 for(Faculties faculties1: faculties){
                     if(faculties1 == null) continue;
-                    if (faculties1.coursesOffered.equals(coursesInList)){
+                    System.out.println(coursesInList);
+                    System.out.println(faculties1.coursesOffered);
+                    if (faculties1.coursesOffered.contains(coursesInList)){
                         facultyList.getItems().add("Course: " + faculties1.coursesOffered + "      " + sectionCount[sectionCountLoop]);
                         facultyList.getItems().add("Prof Name: " + faculties1.name);
                         facultyList.getItems().add("Prof Email: " + faculties1.email);
