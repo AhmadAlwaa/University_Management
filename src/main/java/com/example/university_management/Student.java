@@ -1,10 +1,8 @@
 package com.example.university_management;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
+
 import org.apache.poi.ss.usermodel.*;
-import java.io.File;
-import java.io.IOException;
 
 
 public class Student {
@@ -168,5 +166,46 @@ class AddStudent extends Student{
             }
         }
     }
+    public static void addEnrollment(String student, String subjectCode) throws IOException {
+        File file = new File(FILE_PATH);
+        FileInputStream fins = new FileInputStream(file);
+        Workbook wb = WorkbookFactory.create(fins);
+        Sheet sheet = wb.getSheetAt(2);
+        fins.close(); // Close input stream after reading
+
+        boolean studentFound = false;
+
+        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
+            if (row == null) continue; // Skip null rows
+
+            Cell cell = row.getCell(1);
+            if (cell != null && cell.getCellType() == CellType.STRING && cell.getStringCellValue().equals(student)) {
+                Cell subjectCell = row.getCell(8);
+                if (subjectCell == null) {
+                    subjectCell = row.createCell(8, CellType.STRING);
+                    subjectCell.setCellValue(subjectCode);
+                } else {
+                    String cellBefore = subjectCell.getStringCellValue();
+                    subjectCell.setCellValue(cellBefore + ", " + subjectCode);
+                }
+                studentFound = true;
+                break; // Stop once the student is found
+            }
+        }
+
+        if (!studentFound) {
+            int newRowIdx = sheet.getLastRowNum() + 1;
+            Row newRow = sheet.createRow(newRowIdx);
+            newRow.createCell(1, CellType.STRING).setCellValue(student);
+            newRow.createCell(8, CellType.STRING).setCellValue(subjectCode);
+        }
+
+        FileOutputStream fout = new FileOutputStream(file);
+        wb.write(fout); // Save changes
+        fout.close();
+        wb.close();
+    }
+
 
 }

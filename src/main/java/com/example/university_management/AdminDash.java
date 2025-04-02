@@ -87,6 +87,10 @@ public class AdminDash implements Initializable {
     @FXML private  TextField subjectName;
     @FXML private TextField addingCourses;
     @FXML private Label promptText;
+    @FXML private Label studentsEnr;
+    @FXML private ListView<String> studentEnrList;
+    @FXML private ChoiceBox<String> studentSelect;
+    @FXML private Button enrollStudent;
     static String name;
     static String address;
     static String telephone;
@@ -464,6 +468,7 @@ public class AdminDash implements Initializable {
         ObservableList<Course> courseList = FXCollections.observableArrayList();
         Course[] courses = ReadingCourses.getAllCourseInfo();
 
+
         for(Course course1: courses){
             if(!(course1.courseName.isEmpty())){
                 courseList.add(course1);
@@ -544,14 +549,54 @@ public class AdminDash implements Initializable {
         });
         String code;
         final Course[] selectedCourse = new Course[1];
+        try {
+            Reading_Student.loadStudentCredentials();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Student[] students = Reading_Student.getAllStudents();
         courseInfo.setItems(courseList);
         courseInfo.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) { // Double-click opens details
+            if (event.getClickCount() == 1 && courseInfo.getSelectionModel().getSelectedItem() != null) { // Double-click opens details
                 selectedCourse[0] = courseInfo.getSelectionModel().getSelectedItem();
                 deleteCourses.setText("Delete "+ selectedCourse[0].courseName);
 
             }
+            studentsEnr.setText("Students Enrolled In: " + courseInfo.getSelectionModel().getSelectedItem().courseName);
+            studentEnrList.getItems().clear();
+            for (Student student: students){
+                if (student.subjRej.contains(courseInfo.getSelectionModel().getSelectedItem().subjectCode)){
+                    studentEnrList.getItems().add(student.name);
+                }
+            }
         });
+        studentSelect.getItems().clear();
+        studentSelect.setValue("ENROLL STUDENT");
+        for (Student student: students ) {
+            if (student.name != null) studentSelect.getItems().add(student.name);
+        }
+        studentSelect.getItems().removeLast();
+        enrollStudent.setOnAction(MouseEvent ->{
+            if ( courseInfo.getSelectionModel().getSelectedItem()==null) {
+                studentEnrList.getItems().clear();
+                studentEnrList.getItems().add("No Course Selected");
+            }else if(studentSelect.getValue().equals("ENROLL STUDENT")){
+                studentEnrList.getItems().clear();
+                studentEnrList.getItems().add("Select Student");
+            }else if(studentEnrList.getItems().contains(studentSelect.getValue())){
+                studentEnrList.getItems().clear();
+                studentEnrList.getItems().add("Student Already Enrolled");
+            }else {
+                studentEnrList.getItems().add(studentSelect.getValue());
+                try {
+                    AddStudent.addEnrollment(studentSelect.getValue(),courseInfo.getSelectionModel().getSelectedItem().subjectCode);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+
         deleteCourses.setOnAction(event -> {
 
             try {
@@ -560,7 +605,7 @@ public class AdminDash implements Initializable {
                 throw new RuntimeException(e);
             }
             courseInfo.getItems().remove(selectedCourse[0]);
-            deleteCourses.setText("Delete Subject");
+            deleteCourses.setText("Delete Course");
         });
 
     }

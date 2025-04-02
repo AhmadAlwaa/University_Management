@@ -154,6 +154,14 @@
                                           <Label fx:id="promptText" layoutX="47.0" text="Enter Course Name" />
                                        </children>
                                     </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <ListView fx:id="studentEnrList" layoutY="141.0" prefHeight="251.0" prefWidth="200.0" />
+                                          <Label fx:id="studentsEnr" layoutX="5.0" layoutY="124.0" text="Students Enrolled In:" />
+                                          <ChoiceBox fx:id="studentSelect" layoutY="65.0" prefWidth="150.0" />
+                                          <Button fx:id="enrollStudent" layoutX="25.0" layoutY="99.0" mnemonicParsing="false" text="Enroll Student" />
+                                       </children>
+                                    </AnchorPane>
                                  </children></VBox>
                                   </left>
                                   <right>
